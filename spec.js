@@ -25,39 +25,39 @@
 (function () {
     "use strict";
 
-    window.spec = function (is) {
+    window.spec = function (met) {
         return {
-            is: function (candidate) {
-                if ("object" === typeof is) {
-                    if ("function" === typeof is.is) {
-                        is = is.is;
+            met: function (candidate) {
+                if ("object" === typeof met) {
+                    if ("function" === typeof met.met) {
+                        met = met.met;
                     }
                 }
-                return is(candidate);
+                return met(candidate);
             },
             and: function (specification) {
                 var self = this;
                 return window.spec({
-                    is: function (candidate) {
-                        return self.is(candidate) &&
-                            specification.is(candidate);
+                    met: function (candidate) {
+                        return self.met(candidate) &&
+                            specification.met(candidate);
                     }
                 });
             },
             or: function (specification) {
                 var self = this;
                 return window.spec({
-                    is: function (candidate) {
-                        return self.is(candidate) ||
-                            specification.is(candidate);
+                    met: function (candidate) {
+                        return self.met(candidate) ||
+                            specification.met(candidate);
                     }
                 });
             },
             not: function () {
                 var self = this;
                 return window.spec({
-                    is: function (candidate) {
-                        return !self.is(candidate);
+                    met: function (candidate) {
+                        return !self.met(candidate);
                     }
                 });
             }
