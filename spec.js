@@ -22,41 +22,45 @@
 
 */
 
-window.spec = function(is) {
-    return {
-        is: function (candidate) {
-            if ("object" === typeof is) {
-                if ("function" === typeof is.is) {
-                    is = is.is;
+(function () {
+    "use strict";
+
+    window.spec = function (is) {
+        return {
+            is: function (candidate) {
+                if ("object" === typeof is) {
+                    if ("function" === typeof is.is) {
+                        is = is.is;
+                    }
                 }
+                return is(candidate);
+            },
+            and: function (specification) {
+                var self = this;
+                return window.spec({
+                    is: function (candidate) {
+                        return self.is(candidate) &&
+                            specification.is(candidate);
+                    }
+                });
+            },
+            or: function (specification) {
+                var self = this;
+                return window.spec({
+                    is: function (candidate) {
+                        return self.is(candidate) ||
+                            specification.is(candidate);
+                    }
+                });
+            },
+            not: function () {
+                var self = this;
+                return window.spec({
+                    is: function (candidate) {
+                        return !self.is(candidate);
+                    }
+                });
             }
-            return is(candidate);
-        },
-        and: function (specification) {
-            var self = this;
-            return spec({
-                is: function (candidate) {
-                    return self.is(candidate) &&
-                        specification.is(candidate);
-                }
-            });
-        },
-        or: function (specification) {
-            var self = this;
-            return spec({
-                is: function (candidate) {
-                    return self.is(candidate) ||
-                        specification.is(candidate);
-                }
-            })
-        },
-        not: function () {
-            var self = this;
-            return spec({
-                is: function (candidate) {
-                    return !self.is(candidate);
-                }
-            });
-        }
+        };
     };
-};
+}());
