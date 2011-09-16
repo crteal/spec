@@ -29,40 +29,34 @@
 
     var context = ("undefined" !== typeof exports) ? exports : window;
 
-    context.spec = function (met) {
+    context.spec = function (isSatisfiedBy) {
         return {
-            met: function (candidate) {
-                if ("object" === typeof met) {
-                    if ("function" === typeof met.met) {
-                        met = met.met;
+            isSatisfiedBy: function (candidate) {
+                if ("object" === typeof isSatisfiedBy) {
+                    if ("function" === typeof isSatisfiedBy.isSatisfiedBy) {
+                        isSatisfiedBy = isSatisfiedBy.isSatisfiedBy;
                     }
                 }
-                return met(candidate);
+                return isSatisfiedBy(candidate);
             },
             and: function (specification) {
                 var me = this;
-                return context.spec({
-                    met: function (candidate) {
-                        return me.met(candidate) &&
-                            specification.met(candidate);
-                    }
+                return context.spec(function (candidate) {
+                    return me.isSatisfiedBy(candidate) &&
+                        specification.isSatisfiedBy(candidate);
                 });
             },
             or: function (specification) {
                 var me = this;
-                return context.spec({
-                    met: function (candidate) {
-                        return me.met(candidate) ||
-                            specification.met(candidate);
-                    }
+                return context.spec(function (candidate) {
+                    return me.isSatisfiedBy(candidate) ||
+                        specification.isSatisfiedBy(candidate);
                 });
             },
             not: function () {
                 var me = this;
-                return context.spec({
-                    met: function (candidate) {
-                        return !me.met(candidate);
-                    }
+                return context.spec(function (candidate) {
+                    return !me.isSatisfiedBy(candidate);
                 });
             }
         };
