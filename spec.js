@@ -40,28 +40,28 @@
                 return met(candidate);
             },
             and: function (specification) {
-                var self = this;
+                var me = this;
                 return context.spec({
                     met: function (candidate) {
-                        return self.met(candidate) &&
+                        return me.met(candidate) &&
                             specification.met(candidate);
                     }
                 });
             },
             or: function (specification) {
-                var self = this;
+                var me = this;
                 return context.spec({
                     met: function (candidate) {
-                        return self.met(candidate) ||
+                        return me.met(candidate) ||
                             specification.met(candidate);
                     }
                 });
             },
             not: function () {
-                var self = this;
+                var me = this;
                 return context.spec({
                     met: function (candidate) {
-                        return !self.met(candidate);
+                        return !me.met(candidate);
                     }
                 });
             }
