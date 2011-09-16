@@ -22,10 +22,14 @@
 
 */
 
+/* jslint browser: true, node: true, maxerr: 50, indent: 4 */
 (function () {
+
     "use strict";
 
-    window.spec = function (met) {
+    var context = ("undefined" !== typeof exports) ? exports : window;
+
+    context.spec = function (met) {
         return {
             met: function (candidate) {
                 if ("object" === typeof met) {
@@ -37,7 +41,7 @@
             },
             and: function (specification) {
                 var self = this;
-                return window.spec({
+                return context.spec({
                     met: function (candidate) {
                         return self.met(candidate) &&
                             specification.met(candidate);
@@ -46,7 +50,7 @@
             },
             or: function (specification) {
                 var self = this;
-                return window.spec({
+                return context.spec({
                     met: function (candidate) {
                         return self.met(candidate) ||
                             specification.met(candidate);
@@ -55,7 +59,7 @@
             },
             not: function () {
                 var self = this;
-                return window.spec({
+                return context.spec({
                     met: function (candidate) {
                         return !self.met(candidate);
                     }
@@ -63,4 +67,5 @@
             }
         };
     };
+
 }());
