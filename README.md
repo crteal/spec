@@ -18,7 +18,7 @@ Maybe get a little fancy with it.
 ----------------------------------------
 ```javascript
 // detest negativity
-var positive = spec(function(candidate) {
+var positive = spec(function (candidate) {
     return candidate > 0;
 });
 
