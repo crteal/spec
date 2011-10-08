@@ -40,17 +40,23 @@
                 return isSatisfiedBy(candidate);
             },
             and: function (specification) {
-                var me = this;
+                var me = this, sanitized = specification;
+                if ("function" !== typeof sanitized.isSatisfiedBy) {
+                    sanitized = context.spec(specification);
+                }
                 return context.spec(function (candidate) {
                     return me.isSatisfiedBy(candidate) &&
-                        specification.isSatisfiedBy(candidate);
+                        sanitized.isSatisfiedBy(candidate);
                 });
             },
             or: function (specification) {
-                var me = this;
+                var me = this, sanitized = specification;
+                if ("function" !== typeof sanitized.isSatisfiedBy) {
+                    sanitized = context.spec(specification);
+                }
                 return context.spec(function (candidate) {
                     return me.isSatisfiedBy(candidate) ||
-                        specification.isSatisfiedBy(candidate);
+                        sanitized.isSatisfiedBy(candidate);
                 });
             },
             not: function () {
