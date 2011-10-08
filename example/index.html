@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Spec - Example</title>
+        <script src="../spec.js"></script>
+        <script>
+            // no odd numbers allowed!
+            var even = spec(function (candidate) {
+                return 0 === candidate % 2;
+            });
+
+            // negate even to get an odd future
+            var odd = even.not();
+
+            // detest negativity
+            var positive = spec(function (candidate) {
+                return candidate > 0;
+            });
+
+            // evenly positive
+            var evenAndPositive = even.and(positive);
+
+            // odd or negative
+            var oddOrNegative = odd.or(function (candidate) {
+                return candidate < 0;
+            });
+
+            // number five is alive
+            var shortCircuit = even.or(function (candidate) {
+                // this will never run...need proof?
+                console.log("I owe you a drink.");
+                return (null === candidate || "undefined" === typeof candidate);
+            });
+
+            console.log(even.isSatisfiedBy(3)); // false
+            console.log(odd.isSatisfiedBy(3)); // true
+            console.log(evenAndPositive.isSatisfiedBy(-2)); // false
+            console.log(oddOrNegative.isSatisfiedBy(3)); // true
+            console.log(shortCircuit.isSatisfiedBy(2)); // true
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

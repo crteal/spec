@@ -45,7 +45,7 @@
                     sanitized = context.spec(specification);
                 }
                 return context.spec(function (candidate) {
-                    return me.isSatisfiedBy(candidate) &&
+                    return (!me.isSatisfiedBy(candidate)) ? false :
                         sanitized.isSatisfiedBy(candidate);
                 });
             },
@@ -55,7 +55,7 @@
                     sanitized = context.spec(specification);
                 }
                 return context.spec(function (candidate) {
-                    return me.isSatisfiedBy(candidate) ||
+                    return (me.isSatisfiedBy(candidate)) ? true :
                         sanitized.isSatisfiedBy(candidate);
                 });
             },

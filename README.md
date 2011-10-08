@@ -25,8 +25,20 @@ var positive = spec(function (candidate) {
 // evenly positive
 var evenAndPositive = even.and(positive);
 
-// odd or positive
-var oddOrPositive = odd.or(positive);
+// odd or negative
+var oddOrPositive = odd.or(function (candidate) {
+    return candidate < 0;
+});
+```
+Now with more short circuiting.
+--------------------------------
+```javascript
+// number five is alive
+var shortCircuit = even.or(function (candidate) {
+    // this will never run...need proof?
+    console.log("No disassemble Number Five");
+    return (null === candidate || "undefined" === typeof candidate);
+});
 ```
 Quench your thirst for truthiness.
 ---------------------------------------------
@@ -34,5 +46,6 @@ Quench your thirst for truthiness.
 console.log(even.isSatisfiedBy(3)); // false
 console.log(odd.isSatisfiedBy(3)); // true
 console.log(evenAndPositive.isSatisfiedBy(-2)); // false
-console.log(oddOrPositive.isSatisfiedBy(2)); // true
+console.log(oddOrNegative.isSatisfiedBy(3)); // true
+console.log(shortCircuit.isSatisfiedBy(2)); // true
 ```
